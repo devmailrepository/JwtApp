@@ -1,0 +1,12 @@
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/service/AccountService.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/repository/AccountRepository.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/exception/InternalServerError.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/entity/Role.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/controller/ErrorResponse.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/jwtapp.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/service/AccountServiceImpl.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/entity/Account.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/configuration/ApplicationConfiguration.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/repository/PostgresAccountRepository.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/controller/AccountController.java
+/home/oleksandr/dev/workspace/jwtapp/src/main/java/com/jwtapp/controller/ExceptionCatcher.java
