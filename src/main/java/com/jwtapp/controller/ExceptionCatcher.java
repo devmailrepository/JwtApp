@@ -9,8 +9,8 @@ import org.springframework.web.client.HttpClientErrorException;
 @RestControllerAdvice
 
 public class ExceptionCatcher {
-    @ExceptionHandler(HttpClientErrorException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ClientError.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleException(ClientError ex) {
         return new ErrorResponse( ex.getMessage());
     }

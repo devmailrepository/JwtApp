@@ -2,6 +2,7 @@ package com.jwtapp.repository;
 
 import com.jwtapp.entity.Account;
 import com.jwtapp.entity.Role;
+import com.jwtapp.exception.ClientError;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -64,6 +65,8 @@ public class PostgresAccountRepository implements AccountRepository {
                 });
             }
         } catch (DuplicateKeyException e) {
+            throw new ClientError("DB contains such user");
+
 
 
         }
@@ -87,4 +90,5 @@ public class PostgresAccountRepository implements AccountRepository {
             return new Account(username, email, password);
         }
 
+    }
 }

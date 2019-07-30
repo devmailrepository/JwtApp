@@ -49,3 +49,6 @@ VALUES ('BOSS', 3);
 -- JOIN accounts_roles ar ON accounts.id = ar.accounts_id
 -- JOIN roles r on ar.roles_id = r.id
 -- WHERE accounts.username = ?
+SELECT * FROM accounts
+JOIN roles r on accounts.id = r.account_id
+WHERE username = ?

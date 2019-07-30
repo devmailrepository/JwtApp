@@ -31,20 +31,18 @@ public class AccountController {
         private final String password;
 
         public User(
-            @JsonProperty("username") String username,
-            @JsonProperty("email") String email,
-            @JsonProperty("password") String password
+                @JsonProperty("username") String username,
+                @JsonProperty("email") String email,
+                @JsonProperty("password") String password
         ) {
             this.username = username;
             this.email = email;
             this.password = password;
         }
     }
-
-    @PostMapping("/login")
-    public void login(@RequestBody  User user){
-        accountService.login(user.getUsername(), user.getPassword());
-
-    }
+//    @GetMapping(path = "/auth/login")
+//    public Account getLoginData (@RequestParam(value = "realm") String param) {
+//        accountService.
+//    }
 
 }
