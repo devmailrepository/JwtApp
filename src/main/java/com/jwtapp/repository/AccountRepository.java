@@ -10,6 +10,6 @@ public interface AccountRepository {
 
     void save(Account account);
 
-    Account findAccountByUsername(String username);
+    Account getAccountByName(String usernameVerify);
 
 }

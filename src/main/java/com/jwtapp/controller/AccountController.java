@@ -1,10 +1,9 @@
 package com.jwtapp.controller;
 
+import com.jwtapp.entity.Account;
 import com.jwtapp.service.AccountService;
 import lombok.Getter;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.testcontainers.shaded.com.fasterxml.jackson.annotation.JsonProperty;
 
 @RestController
@@ -40,9 +39,10 @@ public class AccountController {
             this.password = password;
         }
     }
-//    @GetMapping(path = "/auth/login")
-//    public Account getLoginData (@RequestParam(value = "realm") String param) {
-//        accountService.
-//    }
+    @GetMapping(path = "/login")
+    public void getLoginData (@RequestHeader(value = "Authorization") String param) {
+        System.out.println(param);
+        accountService.getLoginData(param);
+    }
 
 }

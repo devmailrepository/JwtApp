@@ -1,11 +1,18 @@
 package com.jwtapp.service;
 
 import com.jwtapp.entity.Account;
+import com.jwtapp.exception.ClientError;
 import com.jwtapp.repository.AccountRepository;
+import jdk.nashorn.internal.objects.annotations.Getter;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
+
+
 @Service
+
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -19,17 +26,33 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public Account create(String username, String email, String password) {
-//        final boolean isExists = accountRepository.exists(username, email);
-//        if (isExists)
-//            throw new ClientError("User with such username or email already exists");
+        final boolean isExists = accountRepository.exists(username, email);
+        if (isExists)
+            throw new ClientError("User with such username or email already exists");
         Account account = new Account(username, email, passwordEncoder.encode(password));
         accountRepository.save(account);
         return account;
     }
 
-    public void login(String username, String password) {
-        Account account = accountRepository.findAccountByUsername(username);
-
+    @Override
+    public void getLoginData(String param) {
+        String preDecodeString = param.substring(6);
+        byte[] decodedBytes = Base64.getDecoder().decode(preDecodeString);
+        String decodeStr = new String(decodedBytes);
+        String[] stringArr = decodeStr.split(":");
+        if (stringArr.length != 2) {
+            System.out.println("TODO some exception");
+        }
+        String usernameVerify = stringArr[0];
+        String passwordVerify = stringArr[1];
+        System.out.println(usernameVerify);
+        System.out.println(passwordVerify);
     }
+   public boolean passwordValidator (String passwordVerify) {
+        BCrypt.checkpw(passwordVerify, accountRepository.getAccountByName().getPassword);
+        return true;
+   }
+   }
+
 
 }
