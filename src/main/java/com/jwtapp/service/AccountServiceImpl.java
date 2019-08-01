@@ -24,13 +24,12 @@ public class AccountServiceImpl implements AccountService {
 
     }
 
-    public Account create(String username, String email, String password) {
+    public void create(String username, String email, String password) {
         final boolean isExists = accountRepository.exists(username, email);
         if (isExists)
             throw new ClientError("User with such username or email already exists");
         Account account = new Account(username, email, passwordEncoder.encode(password));
         accountRepository.save(account);
-        return account;
     }
 
     @Override
@@ -46,6 +45,7 @@ public class AccountServiceImpl implements AccountService {
         final String usernameVerify = stringArr[0];
         final String passwordVerify = stringArr[1];
         final Account accountFromDB = accountRepository.getAccountByName(usernameVerify);
+        System.out.println(accountFromDB.toString());
         if (BCrypt.checkpw(passwordVerify, accountFromDB.getPassword()) && accountFromDB.isEnable()) {
 
         }
