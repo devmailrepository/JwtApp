@@ -7,7 +7,6 @@ public interface AccountService {
 
     Account create(String username, String email, String password);
 
-    void getLoginData(String param);
+    void generateJwt(String authToken);
 
-  public boolean passwordValidator (String passwordVerify);
 }

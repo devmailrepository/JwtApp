@@ -17,12 +17,12 @@ public class Account {
     private final List<Role> roles;
 
     public Account(
-            UUID id,
-            String username,
-            String email,
-            String password,
-            boolean isEnable,
-            List<Role> roles
+        UUID id,
+        String username,
+        String email,
+        String password,
+        boolean isEnable,
+        List<Role> roles
     ) {
         this.id = id;
         this.username = username;
@@ -32,11 +32,23 @@ public class Account {
         this.roles = roles;
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+            "id=" + id +
+            ", username='" + username + '\'' +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            ", isEnable=" + isEnable +
+            ", roles=" + roles +
+            '}';
+    }
+
     public Account(
-            String username,
-            String email,
-            String password,
-            List<Role> roles
+        String username,
+        String email,
+        String password,
+        List<Role> roles
     ) {
         id = UUID.randomUUID();
         this.username = username;
@@ -47,9 +59,9 @@ public class Account {
     }
 
     public Account(
-            String username,
-            String email,
-            String password
+        String username,
+        String email,
+        String password
     ) {
         id = UUID.randomUUID();
         this.username = username;

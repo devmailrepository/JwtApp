@@ -22,25 +22,25 @@ class AccountControllerTest {
 
     private AccountService accountService = Mockito.mock(AccountService.class);
     private AccountController accountController = new AccountController(accountService);
-//    private ExceptionCatcher exceptionCatcher = new ExceptionCatcher();
+    private ExceptionCatcher exceptionCatcher = new ExceptionCatcher();
 
     private MockMvc mockMvc = MockMvcBuilders
         .standaloneSetup(accountController)
-//        .setControllerAdvice(exceptionCatcher)
+        .setControllerAdvice(exceptionCatcher)
         .build();
 
 
-//    @Test
-//    void newAccount() throws Exception {
-//
-//            Account account = new Account("Alex", "Alex@gmail", "pass");
-//            when(accountService.create(eq("Alex"), eq("Alex@gmail"), eq("pass"))).thenReturn(account);
-//
-//            mockMvc.perform(get("/signup"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.username", Matchers.is("Alex")))
-//                .andExpect(jsonPath("$.email", Matchers.is("Alex@gmail")))
-//                .andExpect(jsonPath("$.password", Matchers.is("pass")))
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-//        }
+    @Test
+    void newAccount() throws Exception {
+
+            Account account = new Account("Alex", "Alex@gmail", "pass");
+            when(accountService.create(eq("Alex"), eq("Alex@gmail"), eq("pass"))).thenReturn(account);
+
+            mockMvc.perform(get("/signup"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username", Matchers.is("Alex")))
+                .andExpect(jsonPath("$.email", Matchers.is("Alex@gmail")))
+                .andExpect(jsonPath("$.password", Matchers.is("pass")))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+        }
 }

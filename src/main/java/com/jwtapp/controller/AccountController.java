@@ -1,6 +1,5 @@
 package com.jwtapp.controller;
 
-import com.jwtapp.entity.Account;
 import com.jwtapp.service.AccountService;
 import lombok.Getter;
 import org.springframework.web.bind.annotation.*;
@@ -30,19 +29,20 @@ public class AccountController {
         private final String password;
 
         public User(
-                @JsonProperty("username") String username,
-                @JsonProperty("email") String email,
-                @JsonProperty("password") String password
+            @JsonProperty("username") String username,
+            @JsonProperty("email") String email,
+            @JsonProperty("password") String password
         ) {
             this.username = username;
             this.email = email;
             this.password = password;
         }
     }
+
     @GetMapping(path = "/login")
-    public void getLoginData (@RequestHeader(value = "Authorization") String param) {
+    public void login(@RequestHeader(value = "Authorization") String param) {
         System.out.println(param);
-        accountService.getLoginData(param);
+        accountService.generateJwt(param);
     }
 
 }

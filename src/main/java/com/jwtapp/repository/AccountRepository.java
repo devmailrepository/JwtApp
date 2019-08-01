@@ -1,7 +1,6 @@
 package com.jwtapp.repository;
 
 import com.jwtapp.entity.Account;
-import org.springframework.stereotype.Repository;
 
 
 public interface AccountRepository {

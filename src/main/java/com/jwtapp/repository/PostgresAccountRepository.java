@@ -3,35 +3,32 @@ package com.jwtapp.repository;
 import com.jwtapp.entity.Account;
 import com.jwtapp.entity.Role;
 import com.jwtapp.exception.ClientError;
+import lombok.Getter;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-
-
 public class PostgresAccountRepository implements AccountRepository {
-
 
     private static String ADD_ROLES = "INSERT INTO roles (name, account_id) VALUES (?, ?)";
     private static String ADD_ACCOUNT = "INSERT INTO accounts (id, username, email, password, is_enable) VALUES (?,?,?,?,?)";
     private static String CHECK_USER = "SELECT EXISTS(SELECT id FROM accounts WHERE username = ? OR email = ?)";
-    private static String FIND_BY_NAME = "SELECT * FROM accounts WHERE accounts.username = ?";
-    private static String FIND_ROLES_BY_ID = "SELECT name FROM roles  WHERE roles.user_id = ?";
-
-
+    private static String FIND_BY_NAME = "SELECT * FROM accounts WHERE username = ?";
+    private static String FIND_ROLES_BY_ID = "SELECT name FROM roles  WHERE account_id = ?";
 
     private JdbcTemplate jdbcTemplate;
 
+    private final AccountInfoMapper accountInfoMapper = new AccountInfoMapper();
+    private final RoleMapper roleMapper = new RoleMapper();
 
     public PostgresAccountRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -41,6 +38,7 @@ public class PostgresAccountRepository implements AccountRepository {
         final String[] args = new String[]{username, email};
         return jdbcTemplate.queryForObject(CHECK_USER, args, Boolean.class);
     }
+
     public void save(final Account account) {
         final String accountId = account.getId().toString();
         try {
@@ -58,7 +56,6 @@ public class PostgresAccountRepository implements AccountRepository {
                 jdbcTemplate.update(ADD_ROLES, new PreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement ps) throws SQLException {
-
                         ps.setString(1, role.toString());
                         ps.setString(2, accountId);
                     }
@@ -69,32 +66,56 @@ public class PostgresAccountRepository implements AccountRepository {
         }
     }
 
-    private final AccountRowMapper mapper = new AccountRowMapper();
-    private static class AccountRowMapper implements RowMapper<Account> {
-        public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
-            final String id = rs.getString("id");
-            final String username = rs.getString("username");
-            final String email = rs.getString("email");
-            final String password = rs.getString("password");
-            final Boolean isEnable = rs.getBoolean("status");
-            return ...
+    @Getter
+    private static final class AccountInfo {
+        private UUID id;
+        private String username;
+        private String email;
+        private String password;
+        private Boolean isEnable;
 
-
+        public AccountInfo(UUID id, String username, String email, String password, Boolean isEnable) {
+            this.id = id;
+            this.username = username;
+            this.email = email;
+            this.password = password;
+            this.isEnable = isEnable;
         }
-        private static class RolesRowMapper implements RowMapper<Role>{
-            @Override
-            public Role mapRow(ResultSet rs, int rowNum) throws SQLException {
-                final Array roles = rs.getArray("name");
-                List<Role> role = Arrays.asList(roles);
-                return Role;
-            }
-        }
-
     }
 
     @Override
     public Account getAccountByName(String usernameVerify) {
-        Account existingAccount = jdbcTemplate.queryForObject(FIND_BY_NAME, mapper, usernameVerify);
-        return existingAccount;
+        AccountInfo accountInfo = jdbcTemplate.queryForObject(FIND_BY_NAME, accountInfoMapper, usernameVerify);
+        if (accountInfo == null)
+            return null;
+
+        List<Role> roles = jdbcTemplate.query(FIND_ROLES_BY_ID, roleMapper, accountInfo.id.toString());
+        return new Account(
+            accountInfo.getId(),
+            accountInfo.getUsername(),
+            accountInfo.getEmail(),
+            accountInfo.getPassword(),
+            accountInfo.getIsEnable(),
+            roles
+        );
+
+    }
+    static class AccountInfoMapper implements RowMapper<AccountInfo> {
+        @Override
+        public AccountInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+            UUID id = UUID.fromString(rs.getString("id"));
+            String username = rs.getString("username");
+            String email = rs.getString("email");
+            String password = rs.getString("password");
+            Boolean isEnable = rs.getBoolean("is_enable");
+            return new AccountInfo(id, username, email, password, isEnable);
+        }
+    }
+    static class RoleMapper implements RowMapper<Role> {
+        @Override
+        public Role mapRow(ResultSet rs, int rowNum) throws SQLException {
+            final String nameRole = rs.getString("name");
+            return Role.valueOf(nameRole);
+        }
     }
 }
