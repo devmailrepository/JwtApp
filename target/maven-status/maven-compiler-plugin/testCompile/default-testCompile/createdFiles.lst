@@ -1,2 +1,3 @@
 com/jwtapp/controller/AccountControllerTest.class
 com/jwtapp/repository/PostgresAccountRepositoryTest.class
+com/jwtapp/service/AccountServiceTest.class

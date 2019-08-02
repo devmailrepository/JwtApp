@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -45,7 +44,7 @@ class AccountControllerTest {
             .andExpect(status().isOk());
 
         verify(accountService, times(1))
-            .create(eq(USERNAME), eq(EMAIL), eq(PASSWORD));
+            .create(eq("USERNAME"), eq("EMAIL"), eq("PASSWORD"));
     }
 
     @Test

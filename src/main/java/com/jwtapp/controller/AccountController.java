@@ -4,9 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jwtapp.exception.ParameterMissingException;
 import com.jwtapp.service.AccountService;
+import com.nimbusds.jose.JOSEException;
 import lombok.Getter;
 import org.springframework.web.bind.annotation.*;
 import org.testcontainers.shaded.com.google.common.base.Strings;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 @RestController
 public class AccountController {
@@ -50,9 +54,10 @@ public class AccountController {
     }
 
     @GetMapping(path = "/login")
-    public void login(@RequestHeader(value = "Authorization") String param) {
-        System.out.println(param);
+    public void login(@RequestHeader(value = "Authorization") String param) throws JOSEException, NoSuchAlgorithmException, NoSuchProviderException {
+        if (Strings.isNullOrEmpty(param)) {
+            throw new ParameterMissingException("Your request is empty");
+        }
         accountService.generateJwt(param);
     }
-
 }

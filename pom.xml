@@ -70,11 +70,12 @@
         <version>2.4.0</version>
         <scope>test</scope>
     </dependency>
-<!--    <dependency>-->
-<!--        <groupId>org.projectlombok</groupId>-->
-<!--        <artifactId>lombok</artifactId>-->
-<!--        <version>1.18.8</version>-->
-<!--    </dependency>-->
+<!--Jwt-->
+    <dependency>
+        <groupId>com.nimbusds</groupId>
+        <artifactId>nimbus-jose-jwt</artifactId>
+        <version>7.6</version>
+    </dependency>
 
     <!--Test-->
 

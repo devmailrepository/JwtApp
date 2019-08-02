@@ -1,2 +1,3 @@
 /home/oleksandr/dev/workspace/jwtapp/src/test/java/com/jwtapp/controller/AccountControllerTest.java
+/home/oleksandr/dev/workspace/jwtapp/src/test/java/com/jwtapp/service/AccountServiceTest.java
 /home/oleksandr/dev/workspace/jwtapp/src/test/java/com/jwtapp/repository/PostgresAccountRepositoryTest.java
